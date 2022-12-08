@@ -1,0 +1,24 @@
+[tasks.build-window-openssl]
+script = '''
+docker run --rm -it -v %cd%:/root/project -v %cd%/../rumqtt/rumqttc:/root/rumqtt/rumqttc -v /opt/cargo/registry:/usr/local/cargo/registry -v /opt/cargo/git:/usr/local/cargo/git openssl1-0-2u:1.65.0 cargo build --release
+'''
+
+[tasks.build-uclibc]
+script = '''
+docker run --rm -it -v %cd%:/root/src -v %cd%/../rumqtt/rumqttc:/root/rumqtt/rumqttc -v /opt/uclibc/registry:/usr/local/cargo/registry -v /opt/uclibc/git:/usr/local/cargo/git huangjiemin/mipsel-uclibc-openssl:1.65.0_stable cargo build --release
+'''
+
+[tasks.build-uclibc-102u]
+script = '''
+docker run --rm -it -v %cd%:/root/src -v %cd%/../rust-native-tls:/root/rust-native-tls -v %cd%/../rumqtt/rumqttc:/root/rumqtt/rumqttc -v /opt/uclibc/registry:/usr/local/cargo/registry -v /opt/uclibc/git:/usr/local/cargo/git huangjiemin/mipsel-uclibc-openssl:1.65.0_stable_1.0.2u cargo build --release
+'''
+
+[tasks.cp]
+script = '''
+scp ./target/mipsel-unknown-linux-uclibc/release/async-v3 root@192.168.254.30:/mnt/rumqttc/
+scp ./target/mipsel-unknown-linux-uclibc/release/async-v3-openssl root@192.168.254.30:/mnt/rumqttc/
+
+scp ./target/mipsel-unknown-linux-uclibc/release/async-v5 root@192.168.254.30:/mnt/rumqttc/
+scp ./target/mipsel-unknown-linux-uclibc/release/async-v5-openssl root@192.168.254.30:/mnt/rumqttc/
+
+'''

@@ -1,0 +1,18 @@
+[package]
+name = "rumqttc-openssl1-0-2u"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.66"
+rumqttc = {version ="0.18.0", features = ["use-native-tls"], default-features = false}
+custom-utils = {version ="0.10.12"}
+tokio = {version="1.23.0", features = ["full"]}
+rustls-pemfile = "1.0.1"
+native-tls = "0.2.11"
+
+[patch.crates-io]
+rumqttc = {path = "../rumqtt/rumqttc"}
+native-tls = {path = "../rust-native-tls"}
