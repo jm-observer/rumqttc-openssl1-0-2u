@@ -14,5 +14,7 @@ rustls-pemfile = "1.0.1"
 native-tls = "0.2.11"
 
 [patch.crates-io]
-rumqttc = {path = "../rumqtt/rumqttc"}
-native-tls = {path = "../rust-native-tls"}
+#rumqttc = {path = "../rumqtt/rumqttc"}
+rumqttc = {git = "https://github.com/jm-observer/rumqtt.git"}
+#native-tls = {path = "../rust-native-tls"}
+native-tls = {git = "https://github.com/jm-observer/rust-native-tls.git"}
