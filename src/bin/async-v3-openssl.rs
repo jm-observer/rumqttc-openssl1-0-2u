@@ -3,7 +3,9 @@ use tokio::{task, time};
 use custom_utils::logger::debug;
 use custom_utils::logger::LevelFilter::Trace;
 use native_tls::Certificate;
-use rumqttc::{self, AsyncClient, MqttOptions, QoS, TlsConfiguration, Transport};
+use rumqttc::{
+    self, AsyncClient, MqttOptions, QoS, TlsConfiguration, TlsConnectorBuilder, Transport,
+};
 use std::error::Error;
 use std::time::Duration;
 use tokio::fs::read;
@@ -14,7 +16,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let mut mqttoptions = MqttOptions::new("test-1", "broker-cn.emqx.io", 8883);
     mqttoptions.set_keep_alive(Duration::from_secs(5));
 
-    let mut builder = native_tls::TlsConnector::builder();
+    let mut builder = TlsConnectorBuilder::default();
     if let Some(ca) = custom_utils::args::arg_value("--ca", "-c") {
         debug!("TlsConfiguration::SimpleNativeCa");
         let ca = read(ca).await?;

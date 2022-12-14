@@ -22,3 +22,21 @@ scp ./target/mipsel-unknown-linux-uclibc/release/async-v5 root@192.168.254.30:/m
 scp ./target/mipsel-unknown-linux-uclibc/release/async-v5-openssl root@192.168.254.30:/mnt/rumqttc/
 
 '''
+
+[tasks.v3-openssl]
+script = '''
+@echo off
+SETLOCAL EnableDelayedExpansion
+set "line="
+for %%a in (
+"cargo build --bin async-v3-openssl --release && "
+"rm -rf target/async-v3-openssl-uclibc && "
+"upx --best --lzma -o ./target/async-v3-openssl-uclibc ./target/mipsel-unknown-linux-uclibc/release/async-v3-openssl && "
+"scp -o "StrictHostKeyChecking=no" ./target/iiot_engine-uclibc root@192.168.254.30:/mnt/rumqttc/async-v3-openssl "
+) do set line=!line!%%~a
+@echo on
+docker run --rm -it -v %userprofile%\.git-credentials:/root/.git-credentials -v %cd%:/root/src ^
+    -v %cd%\target\registry:/usr/local/cargo/registry -v %cd%\target\git:/usr/local/cargo/git ^
+    me3/rust-uclibc-openssl:1.65.0_stable_1.0.2u ^
+    sh -c "%line%"
+'''
